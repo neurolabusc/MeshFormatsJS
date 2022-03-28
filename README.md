@@ -21,7 +21,7 @@ The plots below show performance on an Apple M1 (15w passively cooled MacBook Ai
 This is a simple node.js function that you can replicate on your own computer:
 
 ```
-$ npm install gifti-reader-js atob numjs pako buffer
+$ npm install gifti-reader-js atob pako buffer
 $ git clone https://github.com/neurolabusc/MeshFormatsJS.git
 $ cd MeshFormatsJS
 $ node ./meshtest.js
