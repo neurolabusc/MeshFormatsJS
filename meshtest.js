@@ -209,7 +209,7 @@ async function main() {
         indices = gii.getTrianglesDataArray().getData();
       }
       if (ext.toUpperCase() === "JMSH") {
-        var jmsh = new jd(JSON.parse(fs.readFileSync(fnm).toString().replace(/\n/g,'')));
+        var jmsh = new jd(JSON.parse(fs.readFileSync(fnm).toString().replace(/\n/g,'')), {usenumjs:false});
         jmsh=jmsh.decode();
         points = jmsh.data.MeshVertex3;
         indices = jmsh.data.MeshTri3;
@@ -220,7 +220,7 @@ async function main() {
           points = jmsh[0].MeshVertex3;
           indices = jmsh[0].MeshTri3;
         }else{
-          jmsh=new jd(jmsh[0]).decode();
+          jmsh=new jd(jmsh[0], {usenumjs:false}).decode();
           points = jmsh.data.MeshVertex3;
           indices = jmsh.data.MeshTri3;
         }
