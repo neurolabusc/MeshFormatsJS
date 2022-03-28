@@ -140,7 +140,8 @@ readSTL = function (buffer) {
 }; // readSTL()
 
 async function main() {
-  const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"];
+  const fnms = ["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"];
+  //const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl"];
   let npt = 491526; //number of points, each vertex has 3 (XYZ)
   let nidx = 983040; //number of indices: each triangle has 3
   let nrepeats = 10;

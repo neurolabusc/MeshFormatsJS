@@ -11,7 +11,10 @@ A few notes on the formats:
  6. [bmsh](https://en.wikipedia.org/wiki/JMesh) is a binary-JSON ([BJData - Draft 2](https://github.com/NeuroJSON/bjdata/blob/Draft_2/Binary_JData_Specification.md)) based mesh-data container based on the JMesh specification; both `.bmsh` and `.jmsh` support data-level compression
  7. [json](http://json.org) is a minimized plain JSON file using [JMesh](https://github.com/NeuroJSON/jmesh/blob/master/JMesh_specification.md) annotations without compression
 
-![formats](formats.png)
+The plots below show performance on an Apple M1 (15w passively cooled MacBook Air) running macOS and a AMD Ryzen 7 4800H (45w) running Ubuntu 20.04. The trends are extremely similar, with the exception of STL (which was consistently dramatically faster on macOS). To avoid overlapping labels, the plots omit the bmsh format as these formats are very similar to the mz3.
+![M1 Performance](M1.png)
+
+![Ryzen Performance](Ryzen.png)
 
 ## Compiling
 
