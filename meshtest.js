@@ -215,9 +215,14 @@ async function main() {
       }
       if (ext.toUpperCase() === "BMSH") {
         var jmsh = bjd.decode(fs.readFileSync(fnm));
-        jmsh=new jd(jmsh[0]).decode();
-        points = jmsh.data.MeshVertex3;
-        indices = jmsh.data.MeshTri3;
+        if(fnm.match(/raw/)){
+          points = jmsh[0].MeshVertex3;
+          indices = jmsh[0].MeshTri3;
+        }else{
+          jmsh=new jd(jmsh[0]).decode();
+          points = jmsh.data.MeshVertex3;
+          indices = jmsh.data.MeshTri3;
+        }
       }
       if (ext.toUpperCase() === "JSON") {
         var jmsh = JSON.parse(fs.readFileSync(fnm).toString().replace(/\n/g,''));
