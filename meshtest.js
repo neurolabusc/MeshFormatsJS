@@ -6,6 +6,9 @@
 const fs = require('fs')
 const gifti = require('gifti-reader-js')
 const pako = require('pako')
+const jd = require('./lib/jdata.js')
+const bjd = require('./lib/bjdata.js')
+global.atob = require("atob");
 
 
 function readMZ3(buffer) {
@@ -137,7 +140,7 @@ readSTL = function (buffer) {
 }; // readSTL()
 
 async function main() {
-  const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl"];
+  const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"];
   let npt = 491526; //number of points, each vertex has 3 (XYZ)
   let nidx = 983040; //number of indices: each triangle has 3
   let nrepeats = 10;
@@ -153,11 +156,11 @@ async function main() {
     //determine format based on extension
     var re = /(?:\.([^.]+))?$/;
     let ext = re.exec(fnm)[1];
-    let d = new Date();
+    let d = Date.now()
     let points = [];
     let indices = [];
     for (let i = 0; i < nrepeats; i++) {
-      if (i == 1) d = new Date(); //ignore first run for interpretting/disk
+      if (i == 1) d = Date.now(); //ignore first run for interpretting/disk
       if (ext.toUpperCase() === "OBJ") {
         let txt = fs.readFileSync(fnm, {encoding:'utf8', flag:'r'});
         var lines = txt.split("\n");
@@ -204,10 +207,35 @@ async function main() {
         points = gii.getPointsDataArray().getData();
         indices = gii.getTrianglesDataArray().getData();
       }
+      if (ext.toUpperCase() === "JMSH") {
+        var jmsh = new jd(JSON.parse(fs.readFileSync(fnm).toString().replace(/\n/g,'')));
+        jmsh=jmsh.decode();
+        points = jmsh.data.MeshVertex3;
+        indices = jmsh.data.MeshTri3;
+      }
+      if (ext.toUpperCase() === "BMSH") {
+        var jmsh = bjd.decode(fs.readFileSync(fnm));
+        if(fnm.match(/raw/)){
+          points = jmsh[0].MeshVertex3;
+          indices = jmsh[0].MeshTri3;
+        }else{
+          jmsh=new jd(jmsh[0]).decode();
+          points = jmsh.data.MeshVertex3;
+          indices = jmsh.data.MeshTri3;
+        }
+      }
+      if (ext.toUpperCase() === "JSON") {
+        var jmsh = JSON.parse(fs.readFileSync(fnm).toString().replace(/\n/g,''));
+        points = jmsh.MeshVertex3;
+        indices = jmsh.MeshTri3;
+      }
     } //for j : repeats
-    let ms = d.getMilliseconds();
+    let ms = Date.now() - d;
     console.log(`${fnms[i]}\tSize\t${dat.length}\tTime\t${ms}`);
-    if (ext.toUpperCase() !== "STL") { //STL does not reuse vertices
+    if (ext.toUpperCase() === "JSON") { //STL does not reuse vertices
+      console.assert(points.length === npt/3, "wrong number of points");
+      console.assert(indices.length === nidx/3, "wrong number of indices");
+    }else if (ext.toUpperCase() !== "STL") { //STL does not reuse vertices
       console.assert(points.length === npt, "wrong number of points");
       console.assert(indices.length === nidx, "wrong number of indices");
     }
