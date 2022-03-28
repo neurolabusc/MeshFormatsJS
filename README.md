@@ -31,6 +31,6 @@ stl.stl	Size	16384084	Time	1075
 zlib.jmsh	Size	4405604	Time	660
 zlib.bmsh	Size	3259049	Time	479
 raw.min.json	Size	12325881	Time	1239
-raw.bmsh	Size	7865006	Time	46
+raw.bmsh	Size	5898902	Time	38
 
 ```
