@@ -140,7 +140,7 @@ readSTL = function (buffer) {
 }; // readSTL()
 
 async function main() {
-  const fnms = ["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"];
+  const fnms = ["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh", "lzma.bmsh"];
   //const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl"];
   let npt = 491526; //number of points, each vertex has 3 (XYZ)
   let nidx = 983040; //number of indices: each triangle has 3
@@ -219,6 +219,10 @@ async function main() {
         if(fnm.match(/raw/)){
           points = jmsh[0].MeshVertex3;
           indices = jmsh[0].MeshTri3;
+        }else if(fnm.match(/lzma/)){
+          jmsh=new jd(jmsh[0], {usenumjs:false, compression:'lzma-purejs'}).decode();
+          points = jmsh.data.MeshVertex3;
+          indices = jmsh.data.MeshTri3;
         }else{
           jmsh=new jd(jmsh[0], {usenumjs:false}).decode();
           points = jmsh.data.MeshVertex3;
