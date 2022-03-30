@@ -21,19 +21,20 @@ The plots below show performance on an Apple M1 (15w passively cooled MacBook Ai
 This is a simple node.js function that you can replicate on your own computer:
 
 ```
-$ npm install gifti-reader-js atob pako buffer
+$ npm install gifti-reader-js atob pako buffer lzma-purejs
 $ git clone https://github.com/neurolabusc/MeshFormatsJS.git
 $ cd MeshFormatsJS
 $ node ./meshtest.js
 
-gifti.gii	Size	4384750	Time	2111
-gz.mz3	Size	3259141	Time	541
-raw.mz3	Size	5898280	Time	31
-obj.obj	Size	13307997	Time	5318
-stl.stl	Size	16384084	Time	1075
-zlib.jmsh	Size	4405604	Time	660
-zlib.bmsh	Size	3259049	Time	479
-raw.min.json	Size	12325881	Time	1239
-raw.bmsh	Size	5898902	Time	38
+gz.gii	Size	4384750	Time	1905
+gz.mz3	Size	3259141	Time	510
+raw.mz3	Size	5898280	Time	21
+obj.obj	Size	13307997	Time	5491
+stl.stl	Size	16384084	Time	163
+zlib.jmsh	Size	4405604	Time	593
+zlib.bmsh	Size	3259049	Time	464
+raw.min.json	Size	12325881	Time	1352
+raw.bmsh	Size	5898902	Time	24
+lzma.bmsh	Size	2295259	Time	5290
 
 ```
