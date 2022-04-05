@@ -220,7 +220,7 @@ async function main() {
           points = jmsh[0].MeshVertex3;
           indices = jmsh[0].MeshTri3;
         }else if(fnm.match(/lzma/)){
-          jmsh=new jd(jmsh[0], {usenumjs:false, compression:'lzma-purejs'}).decode();
+          jmsh=new jd(jmsh[0], {usenumjs:false, zlib:'lzma-purejs'}).decode();
           points = jmsh.data.MeshVertex3;
           indices = jmsh.data.MeshTri3;
         }else{
