@@ -7,7 +7,7 @@ const fs = require('fs')
 const gifti = require('gifti-reader-js')
 const pako = require('pako')
 const jd = require('./lib/jdata.js')
-const bjd = require('./lib/bjdata.js')
+const bjd = require('bjd')
 global.atob = require("atob");
 
 
