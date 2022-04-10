@@ -29,20 +29,20 @@ function res=meshtest(doplot)
 %           File          Size(byte)    Runtime(ms)
 %     ________________    __________    ___________
 % 
-%     {'gz.gii'      }    4.3848e+06      76.074   
-%     {'gz.mz3'      }    3.2591e+06      60.932   
-%     {'raw.mz3'     }    5.8983e+06      61.856   
-%     {'stl.stl'     }    1.6384e+07       226.6   
-%     {'obj.obj'     }    1.3308e+07      675.25   
-%     {'zlib.jmsh'   }    4.4056e+06      102.01   
-%     {'zlib.bmsh'   }     3.259e+06      39.425   
-%     {'raw.min.json'}    1.2326e+07      433.56   
-%     {'raw.bmsh'    }    5.8989e+06      22.056   
-%     {'lzma.bmsh'   }    2.2953e+06      154.97   
+%     {'gz.gii'      }    4.3848e+06      60.609   
+%     {'gz.mz3'      }    3.2591e+06      50.406   
+%     {'raw.mz3'     }    5.8983e+06      36.922   
+%     {'obj.obj'     }    1.3308e+07      669.26   
+%     {'stl.stl'     }    1.6384e+07      244.93   
+%     {'zlib.jmsh'   }    4.4056e+06      73.561   
+%     {'zlib.bmsh'   }     3.259e+06      34.178   
+%     {'raw.min.json'}    1.2326e+07      412.85   
+%     {'raw.bmsh'    }    5.8989e+06      17.876   
+%     {'lzma.bmsh'   }    2.2953e+06       155.7     
 %
 
 path='../meshes';
-files={'gz.gii', 'gz.mz3', 'raw.mz3', 'stl.stl', 'obj.obj', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
+files={'gz.gii', 'gz.mz3', 'raw.mz3', 'obj.obj', 'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
 expectednode=[163842 3];
 expectedface=[327680 3];
 
