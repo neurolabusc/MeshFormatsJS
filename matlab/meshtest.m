@@ -29,16 +29,16 @@ function res=meshtest(doplot)
 %           File          Size(byte)    Runtime(ms)
 %     ________________    __________    ___________
 % 
-%     {'gz.gii'      }    4.3848e+06      60.609   
-%     {'gz.mz3'      }    3.2591e+06      50.406   
-%     {'raw.mz3'     }    5.8983e+06      36.922   
-%     {'obj.obj'     }    1.3308e+07      669.26   
-%     {'stl.stl'     }    1.6384e+07      244.93   
-%     {'zlib.jmsh'   }    4.4056e+06      73.561   
-%     {'zlib.bmsh'   }     3.259e+06      34.178   
-%     {'raw.min.json'}    1.2326e+07      412.85   
-%     {'raw.bmsh'    }    5.8989e+06      17.876   
-%     {'lzma.bmsh'   }    2.2953e+06       155.7     
+%     {'gz.gii'      }    4.3848e+06      495.11
+%     {'gz.mz3'      }    3.2591e+06      385.92
+%     {'raw.mz3'     }    5.8983e+06      295.86
+%     {'obj.obj'     }    1.3308e+07      5944.6
+%     {'stl.stl'     }    1.6384e+07      1102.9
+%     {'zlib.jmsh'   }    4.4056e+06      678.14
+%     {'zlib.bmsh'   }     3.259e+06      318.13
+%     {'raw.min.json'}    1.2326e+07      3612.4
+%     {'raw.bmsh'    }    5.8989e+06      150.75
+%     {'lzma.bmsh'   }    2.2953e+06      1360.5
 %
 
 path='../meshes';
@@ -66,9 +66,15 @@ end
 function runtime=loadmesh(loadfile, expectednode, expectedface)
 [fpath, fname, fext]=fileparts(loadfile);
 loadfun=str2func(['test' lower(regexprep(fext,'^\.',''))]);
-tic;
 [no,fc]=loadfun(loadfile);
-runtime=toc*1000;
+runtime=0;
+for i=1:9
+    tic;
+    [no,fc]=loadfun(loadfile);
+    runtime=runtime+toc*1000;
+end
+fprintf(1,'%s\t%f\n',[fname,fext],runtime);
+
 if(isempty(regexp(fext,'stl', 'once')) && any(size(no)~=expectednode))
     warning([fname, fext, ': expected node size is [%d %d], loaded [%d %d]\n'],expectednode(1),expectednode(2), size(no,1), size(no,2));
 end
