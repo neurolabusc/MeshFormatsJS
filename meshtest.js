@@ -1,11 +1,12 @@
 //1. Install dependencies
-// ; install nifti-reader-js
+//  install nifti-reader-js
+//  npm install fflate
 //2. Run tests
 // node ./meshtest.js
 
 const fs = require('fs')
 const gifti = require('gifti-reader-js')
-const pako = require('pako')
+const fflate = require('fflate')
 const jd = require('./lib/jdata.js')
 const bjd = require('bjd')
 global.atob = require("atob");
@@ -21,21 +22,8 @@ function readMZ3(buffer) {
   var _buffer = buffer;
   if (magic === 35615 || magic === 8075) {
     //gzip signature 0x1F8B in little and big endian
-    //console.log("detected gzipped mz3");
-    //HTML should source an inflate script:
-    // <script src="https://cdn.jsdelivr.net/pako/1.0.3/pako.min.js"></script>
-    // <script src="js/libs/gunzip.min.js"></script>
-    //for decompression there seems to be little real world difference
     var raw;
-    if (typeof pako === "object" && typeof pako.deflate === "function") {
-      raw = pako.inflate(new Uint8Array(buffer));
-    } else if (typeof Zlib === "object" && typeof Zlib.Gunzip === "function") {
-      var inflate = new Zlib.Gunzip(new Uint8Array(buffer)); // eslint-disable-line no-undef
-      raw = inflate.decompress();
-    } else
-      alert(
-        "Required script missing: include either pako.min.js or gunzip.min.js"
-      );
+    raw = fflate.decompressSync(new Uint8Array(buffer));
     //console.log("gz->raw %d->%d", buffer.byteLength, raw.length);
     var reader = new DataView(raw.buffer);
     var magic = reader.getUint16(0, true);
@@ -141,7 +129,7 @@ readSTL = function (buffer) {
 
 async function main() {
   const fnms = ["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh", "lzma.bmsh"];
-  //const fnms = ["gifti.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl"];
+  //const fnms = ["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl"];
   let npt = 491526; //number of points, each vertex has 3 (XYZ)
   let nidx = 983040; //number of indices: each triangle has 3
   let nrepeats = 10;
