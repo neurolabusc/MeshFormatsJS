@@ -9,7 +9,7 @@ commands to use these formats in Python.
 
 To run this script, one should install the below dependencies via pip
 
-    python3 -mpip install nibabel jdata bjdata numpy-stl meshio numpy
+    python3 -mpip install nibabel jdata bjdata numpy-stl meshio numpy yyjson
 
 Then one can simply run
 
@@ -23,7 +23,8 @@ Author: Qianqian Fang <q.fang at neu.edu>
 
 import nibabel as nib           # read .gii
 import jdata as jd              # read .jmsh, .bmsh
-import json                     # read .json
+#import json                     # read .json
+import yyjson                   # read .json
 import mz3                      # read .mz3
 import stl                      # read .stl
 import meshio                   # read .obj
@@ -76,7 +77,7 @@ def loadmesh(filename):
         tris = obj['MeshTri3']
     elif(ext == '.json'):
         with open(filename, 'r') as fp:
-            obj = json.load(fp)
+            obj = yyjson.load(fp)
         points = obj['MeshVertex3']
         tris = obj['MeshTri3']
     else:
