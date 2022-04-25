@@ -10,7 +10,8 @@ A few notes on the formats:
  5. [jmsh](https://en.wikipedia.org/wiki/JMesh) is a JSON-based general purpose geometry/mesh-data container based on the [JMesh](https://github.com/NeuroJSON/jmesh/blob/master/JMesh_specification.md) and [JData](https://github.com/NeuroJSON/jdata/blob/master/JData_specification.md) specifications; it is human-readable and widely parsable
  6. [bmsh](https://en.wikipedia.org/wiki/JMesh) is a binary-JSON ([BJData - Draft 2](https://github.com/NeuroJSON/bjdata/blob/Draft_2/Binary_JData_Specification.md)) based mesh-data container based on the JMesh specification; both `.bmsh` and `.jmsh` support data-level compression
  7. [json](http://json.org) is a minimized plain JSON file using [JMesh](https://github.com/NeuroJSON/jmesh/blob/master/JMesh_specification.md) annotations without compression
-
+ 8. [PLY](https://en.wikipedia.org/wiki/PLY_(file_format)) is a classic and elegant format that includes a text header and either binary or text data. It can store non-triangular meshes. This flexibility comes with a penalty in terms of speed and file size. 
+ 
 The plots below show performance on an Apple M1 (15w passively cooled MacBook Air) running macOS and a AMD Ryzen 7 4800H (45w) running Ubuntu 20.04. The trends are extremely similar, with the exception of STL (which was consistently dramatically faster on macOS). To avoid overlapping labels, the plots omit the bmsh format as these formats are very similar to the mz3.
 ![M1 Performance](M1.png)
 
@@ -21,20 +22,22 @@ The plots below show performance on an Apple M1 (15w passively cooled MacBook Ai
 This is a simple node.js function that you can replicate on your own computer:
 
 ```
-$ npm install fflate gifti-reader-js atob pako buffer lzma-purejs bjd
+$ npm install fflate gifti-reader-js atob pako buffer lzma-purejs bjd numjs
 $ git clone https://github.com/neurolabusc/MeshFormatsJS.git
 $ cd MeshFormatsJS
 $ node ./meshtest.js
 
-gz.gii	Size	4384750	Time	1905
-gz.mz3	Size	3259141	Time	510
-raw.mz3	Size	5898280	Time	21
-obj.obj	Size	13307997	Time	5491
-stl.stl	Size	16384084	Time	163
-zlib.jmsh	Size	4405604	Time	593
-zlib.bmsh	Size	3259049	Time	464
-raw.min.json	Size	12325881	Time	1352
-raw.bmsh	Size	5898902	Time	24
-lzma.bmsh	Size	2295259	Time	5290
+obj.obj	Size	13307997	Time	3781
+gz.gii	Size	4384750	Time	1693
+raw.gii	Size	7866016	Time	1783
+ply.ply	Size	6226140	Time	59
+gz.mz3	Size	3259141	Time	361
+raw.mz3	Size	5898280	Time	13
+stl.stl	Size	16384084	Time	112
+zlib.jmsh	Size	4405604	Time	465
+zlib.bmsh	Size	3259049	Time	355
+raw.min.json	Size	12325881	Time	855
+raw.bmsh	Size	5898902	Time	11
+lzma.bmsh	Size	2295259	Time	4746
 
 ```
