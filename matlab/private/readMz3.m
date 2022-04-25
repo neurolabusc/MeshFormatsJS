@@ -12,6 +12,69 @@ function [faces, vertices, vertexColors, data] = readMz3(filename)
 faces = [];
 vertices = [];
 vertexColors = [];
+data = [];
+if ~exist(filename,'file'), error('Unable to find MZ3 file named "%s"', filename); return; end;
+fid = fopen(filename,'r','ieee-le');
+magic = fread(fid, 1, 'uint16');
+if (magic ~= 23117) 
+    fclose(fid);
+    [faces, vertices, vertexColors, data] = readMz3Gz(filename);
+    return;
+end
+attr = fread(fid, 1, 'uint16');
+if (attr == 0) || (attr > 15), fprintf('This file uses (future) unsupported features\n'); end;
+isFace = bitand(attr,1);
+isVert = bitand(attr,2);
+isRGBA = bitand(attr,4);
+isSCALAR = bitand(attr,8);
+%read attributes
+nFace = fread(fid, 1, 'uint32');
+nVert = fread(fid, 1, 'uint32');
+nSkip = fread(fid, 1, 'uint32');
+hdrSz = 16+nSkip; %header size in bytes
+if (nSkip > 0)
+    skip = fread(fid, nSkip, 'uint8');
+end
+%read faces
+if isFace
+    faces =  fread(fid, nFace * 3, 'uint32');
+    faces = faces(:)+1; %Matlab indices from 1
+    faces = reshape(faces,3, nFace)';
+end
+%read vertices
+if isVert
+    vertices = fread(fid, nVert * 3, 'float32');
+    vertices = reshape(vertices,3,nVert)';
+end
+%read vertexColors
+if isRGBA
+    vertexColors = fread(fid, nVert * 4, 'uint8');
+    vertexColors = double(vertexColors)/255; %matlab wants values 0..1
+    vertexColors = reshape(vertexColors,4,nVert)';
+    vertexColors = vertexColors(:,1:3);
+end
+%read scalar vertex properties, e.g. intensity
+if isSCALAR
+    vertices = fread(fid, nVert, 'float32');
+end
+fclose(fid);
+%end readMz3()
+
+
+function [faces, vertices, vertexColors, data] = readMz3Gz(filename)
+%function [faces, vertices, vertexColors, data] = readMz3(fileName)
+%inputs:
+%	filename: the nv file to open
+%outputs:
+%  faces: face matrix where cols are xyz and each row is face
+%  vertices: vertices matrix where cols are xyz and each row a vertex
+%  vertexColors: Vx0 (empty), Vx1 (scalar) or Vx3 (RGB) colors for each vertex
+%  data: raw uncompressed bytes of mz3 file
+%Mz3 is the native format of Surf Ice, it is small and fast to read
+%if ~exist('filename','var'), filename = 'stroke.mz3'; end;
+faces = [];
+vertices = [];
+vertexColors = [];
 if ~exist(filename,'file'), error('Unable to find MZ3 file named "%s"', filename); return; end;
 try
     % Check if this is Octave:
@@ -92,4 +155,4 @@ if isSCALAR
     vertexColors = double(vertexColors); %matlab wants doubles
     hdrSz = hdrSz + vertbytes;
 end
-%end readMz3()
+%end readMz3Gz()
