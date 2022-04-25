@@ -1,5 +1,5 @@
-function [faces, vertices, vertexColors, data] = readMz3(filename)
-%function [faces, vertices, vertexColors, data] = readMz3(fileName)
+function [faces, vertices, vertexColors] = readMz3(filename)
+%function [faces, vertices, vertexColors] = readMz3(fileName)
 %inputs:
 %	filename: the nv file to open
 %outputs:
@@ -12,13 +12,12 @@ function [faces, vertices, vertexColors, data] = readMz3(filename)
 faces = [];
 vertices = [];
 vertexColors = [];
-data = [];
 if ~exist(filename,'file'), error('Unable to find MZ3 file named "%s"', filename); return; end;
 fid = fopen(filename,'r','ieee-le');
 magic = fread(fid, 1, 'uint16');
 if (magic ~= 23117) 
     fclose(fid);
-    [faces, vertices, vertexColors, data] = readMz3Gz(filename);
+    [faces, vertices, vertexColors] = readMz3Gz(filename);
     return;
 end
 attr = fread(fid, 1, 'uint16');
@@ -61,8 +60,8 @@ fclose(fid);
 %end readMz3()
 
 
-function [faces, vertices, vertexColors, data] = readMz3Gz(filename)
-%function [faces, vertices, vertexColors, data] = readMz3(fileName)
+function [faces, vertices, vertexColors] = readMz3Gz(filename)
+%function [faces, vertices, vertexColors] = readMz3(fileName)
 %inputs:
 %	filename: the nv file to open
 %outputs:
