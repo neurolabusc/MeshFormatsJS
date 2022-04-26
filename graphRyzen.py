@@ -14,18 +14,18 @@ plt.rcParams["figure.autolayout"] = True
 # Create a dataframe
 df = pd.DataFrame(
    dict(
-      time=[2143, 545, 28, 5236, 1053, 625, 1239],
-      bytes=[4384750, 3259141, 5898280, 13307997, 16384084,4405604,12325881],
-      points=['GIfTIgz', 'MZ3gz', 'MZ3raw', 'OBJ', 'STL', 'JMSHz','JSONraw']
+      time=[4168, 273, 1507, 364, 39, 50, 1742, 1047, 5046, 124],
+      mb=[2.3, 3.3, 4.4, 4.4, 5.9, 6.2, 7.9, 12.3, 13.3, 16.4],
+      points=['lzma.bmsh', 'zlib.bmsh', 'gz.gii', 'zlib.jmsh', 'raw.bmsh', 'ply.ply', 'raw.gii', 'raw.min.json', 'obj.obj', 'stl.stl']
    )
 )
 
 # Scatter plot
-ax = df.plot.scatter(title='Ryzen4800H', x='time', y='bytes', alpha=0.5)
+ax = df.plot.scatter(title='Ryzen5950X', x='time', y='mb', alpha=0.5)
 
 # Annotate each data point
 for i, txt in enumerate(df.points):
-   ax.annotate(txt, (df.time.iat[i], df.bytes.iat[i]))
+   ax.annotate(txt, (df.time.iat[i], df.mb.iat[i]))
 
 #plt.show()
 plt.savefig('Ryzen.png', dpi=300)

@@ -12,8 +12,7 @@ A few notes on the formats:
  7. [json](http://json.org) is a minimized plain JSON file using [JMesh](https://github.com/NeuroJSON/jmesh/blob/master/JMesh_specification.md) annotations without compression
  8. [PLY](https://en.wikipedia.org/wiki/PLY_(file_format)) is a classic and elegant format that includes a text header and either binary or text data. It can store non-triangular meshes. This flexibility comes with a penalty in terms of speed and file size. 
  
-The plots below show performance on an Apple M1 (15w passively cooled MacBook Air) running macOS and a AMD Ryzen 7 4800H (45w) running Ubuntu 20.04. The trends are extremely similar, with the exception of STL (which was consistently dramatically faster on macOS). To avoid overlapping labels, the plots omit the bmsh format as these formats are very similar to the mz3.
-![M1 Performance](M1.png)
+The plots below show performance on a AMD Ryzen 5950X running Ubuntu 21.10. 
 
 ![Ryzen Performance](Ryzen.png)
 
@@ -22,22 +21,41 @@ The plots below show performance on an Apple M1 (15w passively cooled MacBook Ai
 This is a simple node.js function that you can replicate on your own computer:
 
 ```
-$ npm install fflate gifti-reader-js atob pako buffer lzma-purejs bjd numjs
-$ git clone https://github.com/neurolabusc/MeshFormatsJS.git
-$ cd MeshFormatsJS
-$ node ./meshtest.js
+git clone https://github.com/neurolabusc/MeshFormatsJS
+cd MeshFormatsJS/
+npm install fflate gifti-reader-js atob pako buffer lzma-purejs bjd numjs
+node ./meshtest.js
 
-obj.obj	Size	13307997	Time	3781
-gz.gii	Size	4384750	Time	1693
-raw.gii	Size	7866016	Time	1783
-ply.ply	Size	6226140	Time	59
-gz.mz3	Size	3259141	Time	361
-raw.mz3	Size	5898280	Time	13
-stl.stl	Size	16384084	Time	112
-zlib.jmsh	Size	4405604	Time	465
-zlib.bmsh	Size	3259049	Time	355
-raw.min.json	Size	12325881	Time	855
-raw.bmsh	Size	5898902	Time	11
-lzma.bmsh	Size	2295259	Time	4746
-
+obj.obj Size 13307997 Time 5046
+gz.gii Size 4384750 Time 1507
+raw.gii Size 7866016 Time 1742
+ply.ply Size 6226140 Time 50
+gz.mz3 Size 3259141 Time 256
+raw.mz3 Size 5898280 Time 16
+stl.stl Size 16384084 Time 124
+zlib.jmsh Size 4405604 Time 364
+zlib.bmsh Size 3259049 Time 273
+raw.min.json Size 12325881 Time 1047
+raw.bmsh Size 5898902 Time 39
+lzma.bmsh Size 2295259 Time 4168
 ```
+
+## JavaScript, Python and Matlab
+
+The `python` and `matlab` folders allow you to evaluate the performance of different languages. Be aware that the implementations vary between some of the source code, so one should be wary of making strong conclusions. Here are the performance times for each of these languages on a desktop Ryzen 5950X computer. The formats are ranked by file size. Ideally, one wants smale files that open quickly. A natural trade off is the uncompressed files are larger but are read more quickly. Note that all meshes are read from a local disk, whereas if data had to be downloaded the larger files would be relatively slower depending on internet bandwidth:
+
+| Format       | Size | JS   | Python | Matlab |
+|--------------|------|------|--------|--------|
+| lzma.bmsh    | 2.3  | 4168 |        | 1041   |
+| zlib.bmsh    | 3.3  | 273  | 136    | 228    |
+| gz.mz3       | 3.3  | 256  | 177    | 291    |
+| gz.gii       | 4.4  | 1507 | 211    | 403    |
+| zlib.jmsh    | 4.4  | 364  | 190    | 470    |
+| raw.mz3      | 5.9  | 16   | 4      | 35     |
+| raw.bmsh     | 5.9  | 39   | 6633   | 86     |
+| ply.ply      | 6.2  | 50   | 645    | 3030   |
+| raw.gii      | 7.9  | 1742 | 141    | 410    |
+| raw.min.json | 12.3 | 1047 | 253    | 2330   |
+| obj.obj      | 13.3 | 5046 | 7333   | 3740   |
+| stl.stl      | 16.4 | 124  | 130    | 1128   |
+

@@ -22,24 +22,6 @@ function res=meshtest(doplot)
 %
 % output:
 %     result: a table with 3 columns: File, Size(byte) and Runtime(ms)
-%
-% example:
-%     meshtest
-%     ans =
-%           File          Size(byte)    Runtime(ms)
-%     ________________    __________    ___________
-% 
-%     {'gz.gii'      }    4.3848e+06      495.11
-%     {'gz.mz3'      }    3.2591e+06      385.92
-%     {'raw.mz3'     }    5.8983e+06      295.86
-%     {'obj.obj'     }    1.3308e+07      5944.6
-%     {'stl.stl'     }    1.6384e+07      1102.9
-%     {'zlib.jmsh'   }    4.4056e+06      678.14
-%     {'zlib.bmsh'   }     3.259e+06      318.13
-%     {'raw.min.json'}    1.2326e+07      3612.4
-%     {'raw.bmsh'    }    5.8989e+06      150.75
-%     {'lzma.bmsh'   }    2.2953e+06      1360.5
-%
 
 path='../meshes';
 files={'obj.obj', 'gz.gii',  'raw.gii', 'ply.ply', 'gz.mz3', 'raw.mz3',  'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
