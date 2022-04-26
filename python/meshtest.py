@@ -32,7 +32,7 @@ import meshio                   # read .obj
 import os
 import time
 
-files=["gz.gii", "gz.mz3", "raw.mz3", "obj.obj", "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"] #"lzma.bmsh"
+files=["obj.obj", "gz.gii",  "raw.gii", "ply.ply", "gz.mz3", "raw.mz3",  "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"] #"lzma.bmsh"
 
 def loadmeshx10(fname):
     filename=os.getcwd() + '/../meshes/'+fname
@@ -67,7 +67,7 @@ def loadmesh(filename):
         obj = stl.mesh.Mesh.from_file(filename)
         points = obj.points
         tris = obj.vectors
-    elif(ext == '.obj'):  # or .obj, .off, .vtk, .ply, ..., but slow
+    elif(ext == '.obj' or ext == '.ply'):  # or .obj, .off, .vtk, .ply, ..., but slow
         obj = meshio.read(filename)
         points = obj.points
         tris = obj.cells[0].data
