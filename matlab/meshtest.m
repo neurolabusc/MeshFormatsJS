@@ -42,7 +42,7 @@ function res=meshtest(doplot)
 %
 
 path='../meshes';
-files={'gz.gii', 'gz.mz3', 'raw.mz3', 'obj.obj', 'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
+files={'obj.obj', 'gz.gii',  'raw.gii', 'ply.ply', 'gz.mz3', 'raw.mz3',  'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
 expectednode=[163842 3];
 expectedface=[327680 3];
 
@@ -90,6 +90,9 @@ fc=data.faces;
 
 function [no,fc]=testmz3(fname)
 [fc,no] = readMz3(fname);
+
+function [no,fc]=testply(fname)
+[fc,no] = readPly(fname);
 
 function [no,fc]=teststl(fname)
 [no, fc] = stlread(fname);
