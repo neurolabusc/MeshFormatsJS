@@ -8,6 +8,7 @@ const gifti = require('gifti-reader-js')
 const fflate = require('fflate')
 const jd = require('./lib/jdata.js')
 const bjd = require('bjd')
+const util= require('util');
 global.atob = require("atob");
 
 function readPLY(buffer) {
@@ -21,7 +22,7 @@ function readPLY(buffer) {
     while (pos < len && bytes[pos] !== 10) pos++;
     pos++; //skip EOLN
     if (pos - startPos < 1) return "";
-    return new TextDecoder().decode(buffer.slice(startPos, pos - 1));
+    return new util.TextDecoder().decode(buffer.slice(startPos, pos - 1));
   }
   let line = readStr(); //1st line: magic 'ply'
   if (!line.startsWith("ply")) {
