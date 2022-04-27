@@ -12,7 +12,7 @@ A few notes on the formats:
  7. [json](http://json.org) is a minimized plain JSON file using [JMesh](https://github.com/NeuroJSON/jmesh/blob/master/JMesh_specification.md) annotations without compression
  8. [PLY](https://en.wikipedia.org/wiki/PLY_(file_format)) is a classic and elegant format that includes a text header and either binary or text data. It can store non-triangular meshes. This flexibility comes with a penalty in terms of speed and file size. 
  
-The plots below show performance on a AMD Ryzen 5950X running Ubuntu 21.10. 
+The plots below show performance on a AMD Ryzen 5950X running Ubuntu 21.10. For clarity, the graph omits values for mz3 as it performs almost identically to bmsh yielding overlapping text. 
 
 ![Ryzen Performance](Ryzen.png)
 
@@ -49,10 +49,10 @@ The `python` and `matlab` folders allow you to evaluate the performance of diffe
 | lzma.bmsh    | 2.3  | 4168 |        | 1041   |
 | zlib.bmsh    | 3.3  | 273  | 136    | 228    |
 | gz.mz3       | 3.3  | 256  | 177    | 291    |
-| gz.gii       | 4.4  | 1507 | 211    | 403    |
 | zlib.jmsh    | 4.4  | 364  | 190    | 470    |
+| gz.gii       | 4.4  | 1507 | 211    | 403    |
 | raw.mz3      | 5.9  | 16   | 4      | 35     |
-| raw.bmsh     | 5.9  | 39   | 6633   | 86     |
+| raw.bmsh     | 5.9  | 39   | 4      | 86     |
 | ply.ply      | 6.2  | 50   | 645    | 3030   |
 | raw.gii      | 7.9  | 1742 | 141    | 410    |
 | raw.min.json | 12.3 | 1047 | 253    | 2330   |
