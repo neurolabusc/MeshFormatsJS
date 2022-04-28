@@ -5,7 +5,8 @@ function res=meshtest(doplot)
 % result=meshtest
 % result=meshtest(doplot)  % plot the results
 %
-% Function to benchmark mesh file loading speed in MATLAB
+% Function to benchmark mesh file loading speed in MATLAB and Octave
+% tested on MATLAB as old as R2010b and Octave as old as 4.2.2
 %
 % Dependencies: (all dependencies are included)
 %    - gii: @gifti/, gifti toolbox by Guillaume Flandin, https://github.com/gllmflndn/gifti
@@ -25,14 +26,20 @@ function res=meshtest(doplot)
 
 path='../meshes';
 files={'obj.obj', 'gz.gii',  'raw.gii', 'ply.ply', 'gz.mz3', 'raw.mz3',  'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
+if(exist('OCTAVE_VERSION','builtin')~=0)
+    files={'gz.mz3', 'raw.mz3',  'stl.stl', 'zlib.jmsh', 'zlib.bmsh', 'raw.min.json', 'raw.bmsh', 'lzma.bmsh'};
+end
 expectednode=[163842 3];
 expectedface=[327680 3];
 
-filesize=cellfun(@(x) dir([path filesep x]).bytes, files);
+filesize=cellfun(@(x) dir([path filesep x]), files);
+filesize=[filesize.bytes]';
 runtimes=arrayfun(@(x) loadmesh([path filesep files{x}],expectednode,expectedface), 1:length(files));
 
-if(exist('table','file'))
-    res=table(files(:),filesize(:),runtimes(:),'VariableNames',{'File','Size(byte)','Runtime(ms)'});
+if(exist('OCTAVE_VERSION','builtin')~=0)
+    res={files(:),filesize(:),runtimes(:)};
+elseif(exist('table','file'))
+    res=table(files(:),filesize(:),runtimes(:),'VariableNames',{'File','Size_in_byte','Runtime_in_ms'});
 else
     res={files,filesize,runtimes};
 end
