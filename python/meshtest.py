@@ -32,7 +32,7 @@ import meshio                   # read .obj
 import os
 import time
 
-files=["obj.obj", "gz.gii",  "raw.gii", "ply.ply", "gz.mz3", "raw.mz3",  "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh"] #"lzma.bmsh"
+files=["obj.obj", "gz.gii",  "raw.gii", "ply.ply", "gz.mz3", "raw.mz3",  "stl.stl", "zlib.jmsh", "zlib.bmsh", "raw.min.json", "raw.bmsh", "lzma.bmsh"]
 
 def loadmeshx10(fname):
     filename=os.getcwd() + '/../meshes/'+fname
